@@ -1,5 +1,7 @@
 package curs14;
 
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -7,6 +9,7 @@ import java.io.IOException;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 
 public class JsonProcessor {
 	
@@ -54,8 +57,53 @@ public class JsonProcessor {
 			
 		}catch (Exception e) {
 			// TODO: handle exception
+		}		
+	}
+	
+	
+	public void updateJsonFile(String key, String value) throws FileNotFoundException, IOException, ParseException  {
+		
+		try(FileReader reader =  new FileReader("test.json")) {
+			
+			JSONParser jsonParser =  new JSONParser();
+			JSONObject jsonObject =  (JSONObject) jsonParser.parse(reader);
+			
+			System.out.println("JsonObject este :" + jsonObject);
+			
+			jsonObject.put(key, value);
+			
+		try {
+			FileWriter file = new FileWriter("test.json");
+			file.write(jsonObject.toJSONString());
+			file.close();
+		}catch (Exception e) {
+			// TODO: handle exception
+		}	
+			
 		}
 		
 	}
+	
+	public void deletefromJsonFile(String key) throws FileNotFoundException, IOException, ParseException {
+		try(FileReader reader =  new FileReader("test.json")) {
+			
+			JSONParser jsonParser =  new JSONParser();
+			JSONObject jsonObject =  (JSONObject) jsonParser.parse(reader);
+			
+			System.out.println("JsonObject este :" + jsonObject);
+			
+			jsonObject.remove(key);
+			
+		try {
+			FileWriter file = new FileWriter("test.json");
+			file.write(jsonObject.toJSONString());
+			file.close();
+		}catch (Exception e) {
+			// TODO: handle exception
+		}	
+			
+		}
+	}
+	
 
 }
